@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    cursor: pointer;
+
+    background-color: black;
+    font-family: 'Fira Code', monospace;
+}
+
+.header{
+    text-align: center;
+    padding-top: 75px;
+    color: pink;
+
+}
+
+.menu{
+    position: static;
+    font-size: 20px;
+}

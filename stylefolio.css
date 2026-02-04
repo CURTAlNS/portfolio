@@ -26,7 +26,7 @@ body{
     padding: 0;
     width: 100%;
     overflow-x: hidden;
-    cursor: crosshair;
+    cursor: pointer;
 
     font-family: 'Fira Code', monospace;
 }
@@ -150,9 +150,15 @@ h5{
 
 }
 
+.me360{
+    text-align: center;
+    min-height: 300px;
+    flex-direction: column;
+}
+
 .photography{
     text-align: center;
-    height: 600px;   
+    min-height: 200px;   
 }
 
 .skills{
