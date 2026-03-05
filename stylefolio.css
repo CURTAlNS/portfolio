@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: default;
 }
 
 :root {
@@ -29,6 +28,7 @@ body{
     overflow-x: hidden;
 
     font-family: 'Fira Code', monospace;
+    cursor: default;
 }
 
 @media only screen and (max-width:800px){
