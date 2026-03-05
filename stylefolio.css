@@ -35,6 +35,11 @@ body{
 
 }
 
+a {
+   font-size: 35px; 
+   color:#772125;
+}
+
 h1 {
     color:var(--colorlight);
     font-size: 3em;
