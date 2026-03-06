@@ -25,15 +25,38 @@
                 <div id = layout>
                     <div class = projects>
                         <h4>Motor Encoder Classwork</h4>
-                        <p class=description></p>
-                    </div>
-                    <div class = projects>
+                        <p class=description> This project involved designing and implementing a closed-loop motor monitoring
+                                            and control system using an Arduino Uno, a DC motor with a rotary encoder,
+                                            and an HW-95 motor driver module. The goal was to accurately determine the
+                                            angular position, rotational speed (RPM), and linear speed while maintaining reliable control over motor direction and rotation.</p>
+                        <p class = description>The rotary encoder attached to the motor shaft provided pulse signals
+                                                corresponding to incremental shaft movement. These pulses were read by the
+                                                Arduino using interrupt-based counting to ensure accurate measurement even
+                                                at higher speeds. By tracking the number of encoder ticks over time, the
+                                                system computed the angular displacement and rotational velocity of the motor.
+                                                The encoder resolution allowed the program to convert pulse counts into
+                                                precise angular position measurements and calculate RPM by measuring the
+                                                pulse frequency within a defined sampling interval.</p>
+                        </div>
+                        <div class = projects>
                         <h4> Trash Can Project</h4>
                         <p class = description></p>
                     </div>
                     <div class = projects>
                         <h4> 4 Bar Crank</h4>
-                        <p class = description></p>
+                        <p class = description>This project involved analyzing the motion and loading characteristics of a
+        four-bar crank mechanism using a CAD motion simulation. The system consisted
+        of a rotating crank connected to a set of links that converted rotational
+        motion into complex planar movement. A motion study was created to simulate
+        the mechanism operating at a constant angular speed of 600 RPM.</p>
+                        <p class = description>From the motion study, key performance metrics were determined including
+        the maximum motor torque, the crank angle at which this torque occurs,
+        the maximum vertical forces acting on the bearing supports, and the minimum
+        motor power required to maintain a constant rotational speed. The analysis
+        also examined periods of negative motor torque, which indicate instances
+        where the inertia and gravitational forces of the links assist the motion
+        of the mechanism rather than resisting it.
+    </p></p>
                     </div>
                     <div class = projects>
                         <h4> Moving Car Balance Beam</h4>

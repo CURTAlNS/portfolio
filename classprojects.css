@@ -51,6 +51,7 @@ h3{
 
 h4{
     font-size: 1.5em;
+    text-align: center;
 }
 
 h5{
@@ -99,10 +100,10 @@ a {
     min-height: 150px;
     padding-top: 20px;
     color: rgb(0, 0, 0);
-    text-align: center;
     /*layout is to organize the inside of the box with descriptions*/
 }
 
 .description{
-    font-size: 12px;
+    font-size: 20px;
+    padding: 20px;
 }
