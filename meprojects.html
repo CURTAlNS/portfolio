@@ -37,7 +37,45 @@
                                                 The encoder resolution allowed the program to convert pulse counts into
                                                 precise angular position measurements and calculate RPM by measuring the
                                                 pulse frequency within a defined sampling interval.</p>
+                        <div class = code style="overflow:auto;">
+                            void setup() { <br>
+  pinMode(2,INPUT);<br>
+  pinMode(3,INPUT);<br>
+  attachInterrupt(digitalPinToInterrupt(2),myFunction,RISING);<br>
+  Serial.begin(9600);<br>
+}<br>
+<br>
+volatile long int count=0;<br>
+void loop() {<br>
+  String cad="";<br>
+  //cad="Angle (deg): "+String(count*1.5)+";   Velocity (r.p.m.): "+String(getSpeed(100));<br>
+  cad=getSpeed(100);<br>
+  Serial.println(cad);<br>
+  delay(100);<br>
+}<br>
+<br>
+
+void myFunction(){<br>
+  if (digitalRead(3))<br>
+    count++;<br>
+  else<br>
+    count--;<br>  
+}<br>
+<br>
+float getSpeed(int milliseconds){<br>
+  long int count0=0, count1=0;<br>
+  float theta=0, w=0, rpm=0;<br>
+  count0=count;<br>
+  delay(milliseconds);<br>
+  count1=count;<br>
+  theta=(count1-count0)*1.5;<br>
+  w=theta/(milliseconds/1000.0); // deg/s <br> 
+  rpm=w/360.0*60;<br>
+  return(rpm);<br>
+}<br>
                         </div>
+                        <h6>Figure 1: Code to Obtain Motor Speed</h6>
+                    </div>
                         <div class = projects>
                         <h4> Trash Can Project</h4>
                         <p class = description></p>
@@ -69,13 +107,15 @@
         bar from tipping or falling during transport. Careful consideration was given
         to drivetrain design, speed control, and structural stability to ensure
         reliable operation over repeated cycles.</p>
+                        <img class = images src="classprojimg\acalcs.png" width="1000" height="500">
+                        <h6>Figure 1: Hand Calulations to Find Maximum Acceleration of the Car</h6>
                         <img class = images src="classprojimg\graph2.png" width="950" height="500">
-                        <h6> Figure 1: Motion Study Solidworks Setup of the Car With the Beam</h6>
+                        <h6> Figure 2: Motion Study Solidworks Setup of the Car With the Beam</h6>
                         <img class = images src="classprojimg\graph3.png" width="1000" height="500">
-                        <h6> Figure 2: Linear Acceleration vs. Time Graph of the Motion Study</h6>
+                        <h6> Figure 3: Linear Acceleration vs. Time Graph of the Motion Study</h6>
                         <p class = description>After simulating the path that our car will take, we determined the theoretical maximum acceleration of the car </p>
                         <img class = images src="classprojimg\graph4.png" width="1000" height="500">
-                        <h6> Figure 3: Reaction Forces vs. Time graph of the Motion Study</h6>
+                        <h6> Figure 4: Reaction Forces vs. Time graph of the Motion Study</h6>
                         <p class = description>From our results, we determined that the car can travel at a theoretical max speed of 0.7m/s.</p>
                         <div class = code style="overflow:auto;">
 const int DIR_PIN = 5; <br>
@@ -83,7 +123,7 @@ const int PWM_PIN = 6;<br>
 void setup() {<br>
 pinMode(2,INPUT);<br>
 pinMode(3,INPUT);<br>
-
+<br>
 
 attachInterrupt(digitalPinToInterrupt(2),myFunction,RISING);<br>
 Serial.begin(9600);<br>
@@ -95,7 +135,7 @@ digitalWrite(DIR_PIN, LOW);<br>
 volatile long int count=0;<br>
 float v_out=0;<br>
 float current_speed=0;<br>
-
+<br>
 void loop() {<br>
 float v_out=0;<br>
 for (int i = 0; i < 18; i++) {<br>
@@ -146,13 +186,13 @@ analogWrite(DIR_PIN, int(v_out));<br>
 current_speed = getSpeed(100);<br>
 delay(85);<br>
 }<br>
-
+<br>
 // Stop completely at the end<br>
 analogWrite(PWM_PIN, 0);<br>
 digitalWrite(DIR_PIN, 0);<br>
 while(1);<br>
 }<br>
-
+<br>
 void myFunction(){<br>
 if (digitalRead(3))<br>
 count++;<br>
@@ -173,6 +213,10 @@ return(rpm);<br>
 
                         </div>
                         <h6>Figure 4: Full Theoretical Speed Code to Prevent the Beam from Falling</h6>
+                        <p class="description">While our motion study shows that we can balance the beam at a maximum of 0.7m/s, the body of the car touches the road, changing the overall center of mass of the car.
+                            Our car's body has an approximate elevation of 3 inches from the ground, so we had to decrease our car's speed to prevent the beam from falling. 
+                            We reduced our speed by 25%, which allowed the beam to stay on the car.
+                        </p>
                     </div>
                 </div>
         </section>
