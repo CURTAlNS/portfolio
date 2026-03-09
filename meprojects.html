@@ -76,7 +76,12 @@ float getSpeed(int milliseconds){<br>
   return(rpm);<br>
 }<br>
                         </div>
-                        <h6>Figure 1: Code to Obtain Motor Speed</h6>
+                        <h6>Figure 2: Code to Obtain Motor Speed</h6>
+                        <p class = description>The code takes in the speed every 'milliseconds' number of milliseconds. The motor is connected to pins 2 and 3 and in the function
+                            'myFunction,' a counter increases by one value if either pin is on. The float 'getSpeed' takes in the difference of position every 100 milliseconds to find the angle that the motor
+                            is at during any given point in time. To convert it to RPM, the 'getSpeed' function converts the angle to degrees/seconds, then to RPM. In the loop function,
+                            it continues to take in the angle of the motor driver and prints it out for the user to see.
+                        </p>
                     </div>
                         <div class = projects>
                         <h4> Trash Can Project</h4>
