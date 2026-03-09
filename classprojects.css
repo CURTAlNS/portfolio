@@ -143,3 +143,10 @@ a {
     margin-left: auto;
     padding: 30px;
 }
+
+.video{
+    display:block;
+    margin: auto;
+    padding-bottom: 30px;
+
+}
