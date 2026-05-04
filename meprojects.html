@@ -298,218 +298,219 @@ return(rpm);<br>
                         <p class =  description> This project is a motorized hockey ball shooter with 2.5 degrees of freedom, designed to control both aiming and firing. The system used multiple stepper motors for positioning, with two motors controlling the X-axis, one for the Y-axis, and a toy stepper for the Z-axis. A DC motor was used to launch the hockey ball.</p>
                         </p>
                         <div class = code style="overflow:auto;">
-                             /**
- * Joystick controls:
- *   X + E0 = dual X motors
- *   Y      = Y motor
- *
- * Joystick button controls toy stepper on Z:
- *   press once -> 1 rotation forward -> wait 2 sec -> 1 rotation back
- */
-
-
-#define DC_MOTOR_PIN 9
-#define X_STEP_PIN   46 //x motor 1
-#define X_DIR_PIN    48
-#define X_EN_PIN     A8
-
-
-#define E0_STEP_PIN  46  //x motor 2
-#define E0_DIR_PIN   48
-#define E0_EN_PIN    A8
-
-
-#define Y_STEP_PIN   A0 //y motor
-#define Y_DIR_PIN    A1
-#define Y_EN_PIN     38
-
-
-#define Z_STEP_PIN   26 //toy stepper
-#define Z_DIR_PIN    28
-#define Z_EN_PIN     24
-
-
-#define JOY_X_PIN    A9
-#define JOY_Y_PIN    A11
-#define JOY_BTN_PIN  44
-
-
-const int center = 512;
-const int deadzone = 250;
-
-
-const int toyStepsPerRev = 5120;
-const int toySpeedDelay = 100;
-
-
-const int xySpeedDelay = 1;
-
-
-bool lastButtonState = HIGH;
-
-
-// Change this if E0 moves opposite from X
-const bool invertE0Direction = false;
-
-
-void setup() {
-  pinMode(X_STEP_PIN, OUTPUT);
-  pinMode(X_DIR_PIN, OUTPUT);
-  pinMode(X_EN_PIN, OUTPUT);
-  pinMode(DC_MOTOR_PIN, OUTPUT);
-
-
-  pinMode(E0_STEP_PIN, OUTPUT);
-  pinMode(E0_DIR_PIN, OUTPUT);
-  pinMode(E0_EN_PIN, OUTPUT);
-
-
-  pinMode(Y_STEP_PIN, OUTPUT);
-  pinMode(Y_DIR_PIN, OUTPUT);
-  pinMode(Y_EN_PIN, OUTPUT);
-
-
-  pinMode(Z_STEP_PIN, OUTPUT);
-  pinMode(Z_DIR_PIN, OUTPUT);
-  pinMode(Z_EN_PIN, OUTPUT);
-
-
-  pinMode(JOY_BTN_PIN, INPUT_PULLUP);
-
-
-  digitalWrite(X_EN_PIN, LOW);
-  digitalWrite(E0_EN_PIN, LOW);
-  digitalWrite(Y_EN_PIN, LOW);
-  digitalWrite(Z_EN_PIN, LOW);
-
-
-  Serial.begin(115200);
-  Serial.println("Dual X + Y joystick control ready");
-  Serial.println("Toy stepper is on Z");
-}
-
-
-void stepSingleMotor(int stepPin, int dirPin, bool dir) {
-  digitalWrite(dirPin, dir);
-
-
-  digitalWrite(stepPin, HIGH);
-  delayMicroseconds(1);
-  digitalWrite(stepPin, LOW);
-}
-
-
-void stepDualX(bool dir) {
-  digitalWrite(X_DIR_PIN, dir);
-
-
-  if (invertE0Direction) {
-    digitalWrite(E0_DIR_PIN, !dir);
-  } else {
-    digitalWrite(E0_DIR_PIN, dir);
-  }
-
-
-  digitalWrite(X_STEP_PIN, HIGH);
-  digitalWrite(E0_STEP_PIN, HIGH);
-  delayMicroseconds(1);
-
-
-  digitalWrite(X_STEP_PIN, LOW);
-  digitalWrite(E0_STEP_PIN, LOW);
-}
-
-
-void moveToyStepperZ(int steps, bool dir) {
-  digitalWrite(Z_DIR_PIN, dir);
-
-
-  for (int i = 0; i < steps; i++) {
-    digitalWrite(Z_STEP_PIN, HIGH);
-    delayMicroseconds(toySpeedDelay);
-
-
-    digitalWrite(Z_STEP_PIN, LOW);
-    delayMicroseconds(toySpeedDelay);
-  }
-}
-
-
-void runToyCycle() {
-  analogWrite(DC_MOTOR_PIN, 20);
-  delay(1000);
-  Serial.println("Toy stepper Z forward");
-  moveToyStepperZ(toyStepsPerRev, HIGH);
-
-
-  Serial.println("Pause 2 seconds");
-  delay(500);
-  analogWrite(DC_MOTOR_PIN, 0);
-  Serial.println("Toy stepper Z backward");
-  moveToyStepperZ(toyStepsPerRev, LOW);
-
-
-  Serial.println("Toy cycle complete");
-}
-
-
-void loop() {
-  int joyX = analogRead(JOY_X_PIN);
-  int joyY = analogRead(JOY_Y_PIN);
-
-
-  bool buttonState = digitalRead(JOY_BTN_PIN);
-
-
-  // X joystick movement: X and E0 move together
-  if (joyX > center + deadzone) {
-    stepDualX(HIGH);
-    delayMicroseconds(xySpeedDelay);
-  }
-  else if (joyX < center - deadzone) {
-    stepDualX(LOW);
-    delayMicroseconds(xySpeedDelay);
-  }
-
-
-  // Y joystick movement
-  if (joyY > center + deadzone) {
-    stepSingleMotor(Y_STEP_PIN, Y_DIR_PIN, HIGH);
-    delayMicroseconds(xySpeedDelay);
-  }
-  else if (joyY < center - deadzone) {
-    stepSingleMotor(Y_STEP_PIN, Y_DIR_PIN, LOW);
-    delayMicroseconds(xySpeedDelay);
-  }
-
-
-  // Button press moves toy stepper on Z forward, pauses, then returns
-  if (lastButtonState == HIGH && buttonState == LOW) {
-    runToyCycle();
-
-
-    while (digitalRead(JOY_BTN_PIN) == LOW) {
-      delay(1);
-    }
-  }
-
-
-  lastButtonState = buttonState;
-
-
-  static unsigned long lastPrint = 0;
-  if (millis() - lastPrint > 300) {
-    lastPrint = millis();
-
-
-    Serial.print("JoyX: ");
-    Serial.print(joyX);
-    Serial.print(" | JoyY: ");
-    Serial.print(joyY);
-    Serial.print(" | Button: ");
-    Serial.println(buttonState == LOW ? "PRESSED" : "OFF");
-  }
-}
+                             
+/**<br>
+ * Joystick controls:<br>
+ *   X + E0 = dual X motors<br>
+ *   Y      = Y motor<br>
+ *<br>
+ * Joystick button controls toy stepper on Z:<br>
+ *   press once -> 1 rotation forward -> wait 2 sec -> 1 rotation back<br>
+ */<br>
+<br>
+
+#define DC_MOTOR_PIN 9<br>
+#define X_STEP_PIN   46 //x motor 1<br>
+#define X_DIR_PIN    48<br>
+#define X_EN_PIN     A8<br>
+<br>
+
+#define E0_STEP_PIN  46  //x motor 2<br>
+#define E0_DIR_PIN   48<br>
+#define E0_EN_PIN    A8<br>
+
+<br>
+#define Y_STEP_PIN   A0 //y motor<br>
+#define Y_DIR_PIN    A1<br>
+#define Y_EN_PIN     38<br>
+<br>
+
+#define Z_STEP_PIN   26 //toy stepper<br>
+#define Z_DIR_PIN    28<br>
+#define Z_EN_PIN     24<br>
+<br>
+
+#define JOY_X_PIN    A9<br>
+#define JOY_Y_PIN    A11<br>
+#define JOY_BTN_PIN  44<br>
+
+<br>
+const int center = 512;<br>
+const int deadzone = 250;<br>
+<br>
+
+const int toyStepsPerRev = 5120;<br>
+const int toySpeedDelay = 100;<br>
+<br>
+
+const int xySpeedDelay = 1;<br>
+<br>
+
+bool lastButtonState = HIGH;<br>
+
+<br>
+// Change this if E0 moves opposite from X<br>
+const bool invertE0Direction = false;<br>
+<br>
+
+void setup() {<br>
+  pinMode(X_STEP_PIN, OUTPUT);<br>
+  pinMode(X_DIR_PIN, OUTPUT);<br>
+  pinMode(X_EN_PIN, OUTPUT);<br>
+  pinMode(DC_MOTOR_PIN, OUTPUT);<br>
+<br>
+
+  pinMode(E0_STEP_PIN, OUTPUT);<br>
+  pinMode(E0_DIR_PIN, OUTPUT);<br>
+  pinMode(E0_EN_PIN, OUTPUT);<br>
+<br>
+
+  pinMode(Y_STEP_PIN, OUTPUT);<br>
+  pinMode(Y_DIR_PIN, OUTPUT);<br>
+  pinMode(Y_EN_PIN, OUTPUT);<br>
+<br>
+
+  pinMode(Z_STEP_PIN, OUTPUT);<br>
+  pinMode(Z_DIR_PIN, OUTPUT);<br>
+  pinMode(Z_EN_PIN, OUTPUT);<br>
+<br>
+
+  pinMode(JOY_BTN_PIN, INPUT_PULLUP);<br>
+<br>
+
+  digitalWrite(X_EN_PIN, LOW);<br>
+  digitalWrite(E0_EN_PIN, LOW);<br>
+  digitalWrite(Y_EN_PIN, LOW);<br>
+  digitalWrite(Z_EN_PIN, LOW);<br>
+<br>
+
+  Serial.begin(115200);<br>
+  Serial.println("Dual X + Y joystick control ready");<br>
+  Serial.println("Toy stepper is on Z");<br>
+}<br>
+
+<br>
+void stepSingleMotor(int stepPin, int dirPin, bool dir) {<br>
+  digitalWrite(dirPin, dir);<br>
+<br>
+<br>
+  digitalWrite(stepPin, HIGH);<br>
+  delayMicroseconds(1);<br>
+  digitalWrite(stepPin, LOW);<br>
+}<br>
+<br>
+<br>
+void stepDualX(bool dir) {<br>
+  digitalWrite(X_DIR_PIN, dir);<br>
+<br>
+
+  if (invertE0Direction) {<br>
+    digitalWrite(E0_DIR_PIN, !dir);<br>
+  } else {<br>
+    digitalWrite(E0_DIR_PIN, dir);<br>
+  }<br>
+
+<br>
+  digitalWrite(X_STEP_PIN, HIGH);<br>
+  digitalWrite(E0_STEP_PIN, HIGH);<br>
+  delayMicroseconds(1);<br>
+<br>
+<br>
+  digitalWrite(X_STEP_PIN, LOW);<br>
+  digitalWrite(E0_STEP_PIN, LOW);<br>
+}<br>
+<br>
+<br>
+void moveToyStepperZ(int steps, bool dir) {<br>
+  digitalWrite(Z_DIR_PIN, dir);<br>
+<br>
+<br>
+  for (int i = 0; i < steps; i++) {<br>
+    digitalWrite(Z_STEP_PIN, HIGH);<br>
+    delayMicroseconds(toySpeedDelay);<br>
+<br>
+<br>
+    digitalWrite(Z_STEP_PIN, LOW);<br>
+    delayMicroseconds(toySpeedDelay);<br>
+  }<br>
+}<br>
+<br>
+<br>
+void runToyCycle() {<br>
+  analogWrite(DC_MOTOR_PIN, 20);<br>
+  delay(1000);<br>
+  Serial.println("Toy stepper Z forward");<br>
+  moveToyStepperZ(toyStepsPerRev, HIGH);<br>
+<br>
+<br>
+  Serial.println("Pause 2 seconds");<br>
+  delay(500);<br>
+  analogWrite(DC_MOTOR_PIN, 0);<br>
+  Serial.println("Toy stepper Z backward");<br>
+  moveToyStepperZ(toyStepsPerRev, LOW);<br>
+<br>
+<br>
+  Serial.println("Toy cycle complete");<br>
+}<br>
+<br>
+<br>
+void loop() {<br>
+  int joyX = analogRead(JOY_X_PIN);<br>
+  int joyY = analogRead(JOY_Y_PIN);<br>
+<br>
+<br>
+  bool buttonState = digitalRead(JOY_BTN_PIN)<br>;
+<br>
+<br>
+  // X joystick movement: X and E0 move together<br>
+  if (joyX > center + deadzone) {<br>
+    stepDualX(HIGH);<br>
+    delayMicroseconds(xySpeedDelay);<br>
+  }<br>
+  else if (joyX < center - deadzone) {<br>
+    stepDualX(LOW);<br>
+    delayMicroseconds(xySpeedDelay);<br>
+  }<br>
+<br>
+<br>
+  // Y joystick movement<br>
+  if (joyY > center + deadzone) {<br>
+    stepSingleMotor(Y_STEP_PIN, Y_DIR_PIN, HIGH);<br>
+    delayMicroseconds(xySpeedDelay);<br>
+  }<br>
+  else if (joyY < center - deadzone) {<br>
+    stepSingleMotor(Y_STEP_PIN, Y_DIR_PIN, LOW);<br>
+    delayMicroseconds(xySpeedDelay);<br>
+  }<br>
+<br>
+<br>
+  // Button press moves toy stepper on Z forward, pauses, then returns<br>
+  if (lastButtonState == HIGH && buttonState == LOW) {<br>
+    runToyCycle();<br>
+<br>
+<br>
+    while (digitalRead(JOY_BTN_PIN) == LOW) {<br>
+      delay(1);<br>
+    }<br>
+  }<br>
+<br>
+<br>
+  lastButtonState = buttonState;<br>
+<br>
+<br>
+  static unsigned long lastPrint = 0;<br>
+  if (millis() - lastPrint > 300) {<br>
+    lastPrint = millis();<br>
+<br>
+<br>
+    Serial.print("JoyX: ");<br>
+    Serial.print(joyX);<br>
+    Serial.print(" | JoyY: ");<br>
+    Serial.print(joyY);<br>
+    Serial.print(" | Button: ");<br>
+    Serial.println(buttonState == LOW ? "PRESSED" : "OFF");<br>
+  }<br>
+}<br>
 
                         </div>
                         <p class = description>The final result is a three-stage linear device with a human operated joystick and shooting mechanism, allowing it to aim and fire through the control of a joystick. The stepper motors allowed for precise hockey stick positioning, while the DC motor ran at a speed of 80RPM to successfully shoot the ball.
