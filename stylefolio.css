@@ -119,7 +119,6 @@ h6{
     align-items: center;
     justify-content: center;
     flex-direction: column; 
-    margin-left: auto;
 }
 
 
@@ -130,7 +129,7 @@ h6{
     height:auto;
     padding-top: 50px;
     justify-content: center;
-    margin-left: auto;
+    margin-left: 200px;
     margin-right: auto;
 
     display:grid;
