@@ -114,6 +114,7 @@ float getSpeed(int milliseconds){<br>
                             without dropping it. I conducted a geometrical simulation using sketches to determine where the arm should be placed on 
                             the trash can before modeling the final prototype using Solidworks.
                         </p>
+                        <source src="classprojimg/trashycan.mp4" type="video/mp4">
                     </div>
 
                     <div class = projects>
@@ -137,6 +138,7 @@ float getSpeed(int milliseconds){<br>
         where the inertia help the arms move rather than resisting it. This means that the motor torque has to slow down the rotation of the crank to retain 
         the speed of 20RPM.
                         </p>
+                        <source src="motorfourbar.mp4" type="video/mp4">
                     </div>
                     
                     <div class = projects>
@@ -159,6 +161,7 @@ float getSpeed(int milliseconds){<br>
                             for the typical rotary motor. The RPM was automatically set by Solidworks after I specified the 10 ft distance that the car must travel. Results from the 
                             motion study are shown below.
                         </p>
+                        <source src="classprojimg/barmove.mp4" type="video/mp4">
                         <img class = images src="classprojimg\graph3.png" width="1000" height="500">
                         <h6> Figure 3: Linear Acceleration vs. Time Graph of the Motion Study</h6>
                         <p class = description>After simulating the path that our car will take, we determined the theoretical maximum acceleration of the car </p>
@@ -280,6 +283,7 @@ return(rpm);<br>
                                 to the beam placement due to the center of mass of our car. In our motion study, the beam is placed at the back of the car however, we ended up placing the beam closer to the 
                                 front of the car, because our other components were bolted to the back. We also turned the beam 45 degrees in an attempt to further equalize the center of mass
                                 of the entire system and the results proved that the orientation of the beam also had an effect on its stablization due to its cross sectional pattern.
+                                From this project, I learned how to optimize assembly to allow for lightweight movement, quick accessibility, and stabilization for balancing components.
                         </p>
                     </div>
                         <div class = projects>
@@ -293,6 +297,7 @@ return(rpm);<br>
                         <h6>Figure 2: Autotnomous Dinosaur Drawing from an Existing Image</h6>
                         <p class = description>Three stepper motors were controlled using a RAMPS board through the XYZ pin configuration.
                             G-code was implemented through Repetier Host, which allowed for both independent and coordinated axis motion. Through G-code translation, the system was able to produce drawings autonomously, serving as an introduction to multi-axis systems and motorized control.
+                            This project gave me lots of insight on how to convert rotational movement into linear and to control stepper motors through G-code.
                         </p>
                     </div>
                     
@@ -304,7 +309,8 @@ return(rpm);<br>
                         <p class =  description> This project is a motorized hockey ball shooter with 2.5 degrees of freedom, designed to control both aiming and firing. The system used multiple stepper motors for positioning, with two motors controlling the X-axis, one for the Y-axis, and a toy stepper for the Z-axis. A DC motor was used to launch the hockey ball.
                             The X and Y motors are controlled with a KY-023 joystick that reads analog data from rotational movement and digital data from the button switch. Each of the main components used in the assembly were 3D printed from PTEG and PLA. The bars used to mount the moving sliders were 8020s with two being 1 in by 1 in and 
                             the other being 20 mm by 20 mm. We 3D printed our parts, because the materials we needed would not arrive in time. Some of the smaller and more precise parts in our system, such as the gear and rack, needed to be 3D printed with small tolerances to allow the stick to move up and down, translating rotational into linear movement.
-                            We did not use hot glue or tape to assemble our device, so components were bolted together with 1/4-20 and 8-32 bolts. This allowed us to easily assemble our system and access parts that would be difficult to reach if parts were permanently fixed.
+                            We did not use hot glue or tape to assemble our device, so components were bolted together with 1/4-20 and 8-32 bolts. This allowed us to easily assemble our system and access parts that would be difficult to reach if parts were permanently fixed. From this project, I honed in on my Solidworks CAD skills to create precise
+                            parts that held onto belt ridges, providing us with smooth linear movement from the stepper motors and pulleys. 
                         </p>
                         <div class = code style="overflow:auto;">
                              
