@@ -285,7 +285,7 @@ return(rpm);<br>
                         <div class = projects>
                         <h4> Linear Axis 2.5 DOF Autonomous Drawing Machine</h4>
                         <img class = images src="classprojimg/LinearDrawing.jpeg" width="750" height="550">
-                        <h6>Figure 1: Linear Bar Assembly</h6>
+                        <h6>Figure 1: Linear Bar Assembly </h6>
                         <p class =  description> This project is a three-stage linear device capable of autonomous image recreation using a marker or pen. The system utilized stepper motors to control motion along the X, Y, and Z axes, providing users with 2.5 degrees of freedom.
                             The device was in its prototype phase and was constructed using a foam block, linear rods, and bearings, allowing for a lightweight but functional structure. 
                         </p>             
@@ -299,9 +299,12 @@ return(rpm);<br>
                     </div>
                         <div class = projects>
                         <h4> Ball Hockey Joystick Machine</h4>
-                        <img class = images src="classprojimg/assemblyfinal.jpeg" width="500" height="600">
-                        <h6>Figure 1: Assembly and Project Test Setup</h6>
-                        <p class =  description> This project is a motorized hockey ball shooter with 2.5 degrees of freedom, designed to control both aiming and firing. The system used multiple stepper motors for positioning, with two motors controlling the X-axis, one for the Y-axis, and a toy stepper for the Z-axis. A DC motor was used to launch the hockey ball.</p>
+                        <img class = images src="classprojimg/fullbuild.jpg" width="500" height="600">
+                        <h6>Figure 1: Assembly and Project Actuator Test Setup</h6>
+                        <p class =  description> This project is a motorized hockey ball shooter with 2.5 degrees of freedom, designed to control both aiming and firing. The system used multiple stepper motors for positioning, with two motors controlling the X-axis, one for the Y-axis, and a toy stepper for the Z-axis. A DC motor was used to launch the hockey ball.
+                            The X and Y motors are controlled with a KY-023 joystick that reads analog data from rotational movement and digital data from the button switch. Each of the main components used in the assembly were 3D printed from PTEG and PLA. The bars used to mount the moving sliders were 8020s with two being 1 in by 1 in and 
+                            the other being 20 mm by 20 mm. We 3D printed our parts, because the materials we needed would not arrive in time. Some of the smaller and more precise parts in our system, such as the gear and rack, needed to be 3D printed with small tolerances to allow the stick to move up and down, translating rotational into linear movement.
+                            We did not use hot glue or tape to assemble our device, so components were bolted together with 1/4-20 and 8-32 bolts. This allowed us to easily assemble our system and access parts that would be difficult to reach if parts were permanently fixed.
                         </p>
                         <div class = code style="overflow:auto;">
                              
@@ -443,7 +446,7 @@ void moveToyStepperZ(int steps, bool dir) {<br>
 <br>
 <br>
 void runToyCycle() {<br>
-  analogWrite(DC_MOTOR_PIN, 20);<br>
+  analogWrite(DC_MOTOR_PIN, 80);<br>
   delay(1000);<br>
   Serial.println("Toy stepper Z forward");<br>
   moveToyStepperZ(toyStepsPerRev, HIGH);<br>
@@ -520,12 +523,22 @@ void loop() {<br>
 
                         </div>
                         <p class = description>The final result is a three-stage linear device with a human operated joystick and shooting mechanism, allowing it to aim and fire through the control of a joystick. The stepper motors allowed for precise hockey stick positioning, while the DC motor ran at a speed of 80RPM to successfully shoot the ball.
+                            We assigned 3 pins in the AUX 2 port on the RAMPS board to
+                            take in X, Y, and button data while the final two joysticks pins were connected to 5V and ground. The way the joystick works is that it reads a range of values from 0 to 1023 depending
+                            on the orientation of the stick. If-else statements were used to map X and Y movement to the joystick with a center value of 500, marking the middle position of the joystick, and a deadzone of 250. The deadzone acts as a safety feature, preventing accidental movement
+                            from fluctuating joystick readings. Finally, the button state was detected through a ditigal pin, telling the user if the button was pressed or not. When the button is pressed, the toy stepper will rotate, causing the rack and pinion to lower the hockey stick.
+                            This allows users to reposition the stick and prepare to shoot the ball. During testing, all inputs data was analyzed through Arduino's built in serial monitor to ensure the device was accurate, reliable, and functional. This also helped us 
+                            troubleshoot through any potential broken board and joystick pins.
                         </p>
                         <video class = video
                             width="900" height="500" controls>
                             <source src="classprojimg/ballhockey.mp4" type="video/mp4">
                         </video>
-                        <p class =  description> The device was operated with a RAMPS board connected to an Arduino Mega, allowing us to input autonomous commands to shoot the puck and commands that allow players to control the hockey stick. Through precise CAD models in Solidworks, the linear actuaters were consistently reliable and proved to be very successful. </p>
+                        <p class =  description> The device was operated with a RAMPS board connected to an Arduino Mega, allowing us to input autonomous commands to shoot the puck and commands that allow players to control the hockey stick. Through precise CAD models in Solidworks, the linear actuaters were consistently reliable and proved to be very successful.
+                            An issue we ran into when testing our device was that the DC motor had to be controlled with an analog command. The Arduino board outputs 12V, but the DC motor we used was only rated for 6V. This could potentially fry the motor, so we set its speed to 80 RPM, which is 3.76 volts. Another problem we ran into while testing our system was that
+                            the DC motor sped up when the X and Y stepper motors ran. While it was difficult to test for the exact cause of the issue, the most probable cause was due to a voltage leak from the board. To avoid this, we setup another function that
+                            was controlled via button. When the toy stepper lowered the stick, the DC motor would spin for around 2 seconds to shoot the ball. After, the toy stepper would raise the stick up to prevent it from contacting the ground. Since we used delays instead of the "millis" function in our code,
+                            users cannot control the X and Y stepper motors during the device's shooting phase. In the future, the code will be improved to bypass this, allowing users to position and shoot the ball simultaneously. 
                         </p>
                     </div>
                     
